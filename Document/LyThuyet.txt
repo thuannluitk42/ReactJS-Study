@@ -1,0 +1,432 @@
+---------------------------------------------------------- Learn JS ---------------------------------------------------------------
+
+https://web.dev/learn/css/
+https://javascript.info/
+
+https://car-buyer-quiii3zb5-tothanhsang.vercel.app/docs
+https://drive.google.com/file/d/1rJjgPbNgzpIzMRw9aEh9SkGHN2mc0SLK/view
+https://www.figma.com/file/b3DQkzOpqyYpxkLpg5TO8N/Dev---Test?node-id=23%3A50585
+ReactJS
+https://tailwindcss.com/
+https://getbootstrap.com/docs/4.0/getting-started/introduction/
+https://redux.js.org/api/store
+https://tailwindcss.com/docs/guides/create-react-app
+https://react-redux.js.org/introduction/why-use-react-redux
+https://reactjs.org/tutorial/tutorial.html
+
+1. What is this in JS?
+2. call, bind, apply
+3. Asyn/await, Promise, Callback
+4. Event loop.
+
+
+
+1) This is not a variable. It is a keyword. You cannot change the value of this.
+In an object method, this refers to the object.
+Alone, this refers to the global object.
+In a function, this refers to the global object.
+In a function, in strict mode, this is undefined.
+In an event, this refers to the element that received the event.
+Methods like call(), apply(), and bind() can refer this to any object.
+
+2)  
+Call():
+An object can use a method belonging to another object
+const person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+const person1 = {
+  firstName:"John",
+  lastName: "Doe"
+}
+person.fullName.call(person1, "Oslo", "Norway");
+Apply():
+With the apply() method, you can write a method that can be used on different objects.
+const person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+const person1 = {
+  firstName:"John",
+  lastName: "Doe"
+}
+person.fullName.apply(person1, ["Oslo", "Norway"]);
+=> Điểm khác nhau giữa call() và apply() => apply nhận đối số là mảng còn call thì là từng phần tử riêng biệt.
+
+Bind():
+With the bind() method, an object can borrow a method from another object.
+const person = {
+  firstName:"John",
+  lastName: "Doe",
+  fullName: function () {
+    return this.firstName + " " + this.lastName;
+  }
+}
+const member = {
+  firstName:"Hege",
+  lastName: "Nilsen",
+}
+let fullName = person.fullName.bind(member);
+Sometimes the bind() method has to be used to prevent loosing this.=> Khi có callback thì dùng bind để this keyword lúc này ko bị undefine.
+
+3)
+Async 
+- khai báo một hàm bất đồng bộ (async function someName(){...}).
+- Tự động biến đổi một hàm thông thường thành một Promise.
+- Khi gọi tới hàm async nó sẽ xử lý mọi thứ và được trả về kết quả trong hàm của nó.
+- Async cho phép sử dụng Await.
+Await 
+- tạm dừng việc thực hiện các hàm async. (Var result = await someAsyncCall ()
+- Khi được đặt trước một Promise, nó sẽ đợi cho đến khi Promise kết thúc và trả về kết quả.
+- Await chỉ làm việc với Promises, nó không hoạt động với callbacks.
+- Await chỉ có thể được sử dụng bên trong các function async.
+Promise
+- Vừa chạy code vừa trả về kết quả, kết quả trả về 1 là success 1 là error
+- Có 3 trạng thái:
+pending => undefined
+fulfilled => a result value
+rejected => an error object
+Vd:
+let myPromise = new Promise(function(myResolve, myReject) {
+  let req = new XMLHttpRequest();
+  req.open('GET', "mycar.htm");
+  req.onload = function() {
+    if (req.status == 200) {
+      myResolve(req.response);
+    } else {
+      myReject("File not Found");
+    }
+  };
+  req.send();
+});
+
+myPromise.then(
+  function(value) {myDisplayer(value);},
+  function(error) {myDisplayer(error);}
+);
+
+Callback:
+A callback is a function passed as an argument to another function.
+function myDisplayer(some) {
+  document.getElementById("demo").innerHTML = some;
+}
+
+function myCalculator(num1, num2, myCallback) {
+  let sum = num1 + num2;
+  myCallback(sum);
+}
+
+myCalculator(5, 5, myDisplayer);
+
+4)
+event loop:
+sẽ liên tục kiểm tra xem call stack có rỗng hay không? Nếu nó rỗng, nó sẽ lấy message đầu tiên trong message queue và đẩy vào call stack.
+
+5)
+Function Declarations: 
+Khai báo hàm theo kiểu thông thường.
+function myFunction(a, b) {
+  return a * b;
+}
+
+Function Expressions:
+Lưu trữ 1 hàm trong 1 cái biến: The function above is actually an anonymous function (a function without a name).
+const x = function (a, b) {return a * b};
+let z = x(4, 3);
+
+Function Hoisting
+Luôn ghi nhớ là hàm của js viết trước hay sau khi thực thi thì nó đều chạy.
+Nghĩa là chạy hàm trước, định nghĩa hàm sau thì nó vẫn chạy trước ko lỗi.
+Chú ý: không được chứa hàm trong biến nếu ko nó sẽ lỗi
+myFunction(5);
+function myFunction(y) {
+  return y * y;
+}
+
+Self-Invoking Functions:
+The function above is actually an anonymous self-invoking function (function without name).
+Hàm này tự động run, ko cần tên hàm, luôn nhớ đặt hàm trong dấu ()
+(function () {
+  let x = "Hello!!";  // I will invoke myself
+})();
+
+Arrow Functions: 
+Arrow functions do not have their own this. They are not well suited for defining object methods.
+Arrow functions are not hoisted. They must be defined before they are used.
+Using const is safer than using var, because a function expression is always constant value.
+=> lamda expression
+const x = (x, y) => { return x * y };
+
+6)
+Arrow Function: Short vs method(filter, map, ...)
+const words = ['Python', 'Javascript', 'Go', 'Java', 'PHP', 'Ruby'];
+const result = words.filter(word => word.length < 8);
+console.log(result);
+In ra những word mà có lenght dưới 8
+
+
+const task_names = [];
+tasks.forEach(function (task) {
+    task_names.push(task.name);    
+});
+console.log(task_names) // [ 'Write for Envato Tuts+', 'Work out', 'Procrastinate on Duolingo' ]
+Chuyển thành
+const task_names = tasks.map(function (task, index, array) {
+    return task.name; 
+});
+console.log(task_names) // [ 'Write for Envato Tuts+', 'Work out', 'Procrastinate on Duolingo' ]
+
+7)
+Hoisting: Hoisting is JavaScript's default behavior of moving declarations to the top.
+Dùng biến trước khai báo biến sau:
+In JavaScript, a variable can be declared after it has been used.
+In other words; a variable can be used before it has been declared.
+
+x = 5; // Assign 5 to x
+elem = document.getElementById("demo"); // Find an element
+elem.innerHTML = x;                     // Display x in the element
+var x; // Declare x
+
+8)
+JavaScript Scope:
+
+Block scope
+--------------------------
+{
+  let x = 2;
+}
+// x can NOT be used here
+
+--------------------------------
+{
+  var x = 2;
+}
+// x CAN be used here
+
+--------------------------------
+
+// code here can NOT use carName
+function myFunction() {
+  let carName = "Volvo";
+  // code here CAN use carName
+}
+// code here can NOT use carName
+--------------------------------
+
+================================================================================================
+Function scope
+-------------------------------
+Variables defined inside a function are not accessible (visible) from outside the function.
+Variables declared with var, let and const are quite similar when declared inside a function.
+function myFunction() {
+  var carName = "Volvo";   // Function Scope
+}
+
+===============================================================================================
+Global scope
+Global variables can be accessed from anywhere in a JavaScript program.
+Variables declared with var, let and const are quite similar when declared outside a block.
+var x = 2;       // Global scope
+let x = 2;       // Global scope
+const x = 2;       // Global scope
+
+9)
+null, undefined.
+null => áp dụng cho object
+undefined => áp dụng cho biến
+
+Vậy điểm khác biệt là gì? null vs undefined
+Giống nhau:
+Cả hai khi bị phủ nhận đều tra về true, nhưng không có cái nào bằng true hoặc false.
+Chúng đều đại diện cho một cái gì đó không tồn tại…
+Khác nhau:
+null đại diện cho “nothing”, hoàn toàn không tồn tại, không xác định được thứ không được xác định.
+undefined thì có dạng data của riêng nó (undefined), null thì chỉ là một object
+null đưa về 0 khi vận hành bằng toán, undefined trả về NaN
+
+10)
+Define object:
+const person = {
+  firstName: "John",
+  lastName : "Doe",
+  id       : 5566,
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+
+You can access object properties in two ways:
+objectName.propertyName
+or
+objectName["propertyName"]
+
+
+11)
+Copy object:
+
+const person = {
+    firstName: 'John',
+    lastName: 'Doe'
+};
+
+- Use the spread (...) syntax:
+// using spread ...
+let p1 = {
+    ...person
+};
+
+- Use the Object.assign() method:
+// using  Object.assign() method
+let p2 = Object.assign({}, person);
+
+- Use the JSON.stringify() and JSON.parse() methods:
+// using JSON
+let p3 = JSON.parse(JSON.stringify(person));
+
+Copy biến nguyên thủy thì mọi thứ vẫn copy 1 cách bình thường:
+let counter = 1;
+let copiedCounter = counter;
+copiedCounter = 2;
+console.log(counter); 
+=> 1.
+
+Nếu dùng biến tham chiếu thì nó sẽ ko copy mà nó thay luôn giá trị của 2 biến
+let person = {
+    firstName: 'John',
+    lastName: 'Doe'
+};
+let copiedPerson = person;
+copiedPerson.firstName = 'Jane';
+console.log(person); 
+=> 
+{
+    firstName: 'Jane',
+    lastName: 'Doe'
+}
+
+----------------------------------------------------------------------------------
+Shallow copy example
+let person = {
+    firstName: 'John',
+    lastName: 'Doe',
+    address: {
+        street: 'North 1st street',
+        city: 'San Jose',
+        state: 'CA',
+        country: 'USA'
+    }
+};
+
+
+let copiedPerson = Object.assign({}, person);
+
+copiedPerson.firstName = 'Jane'; // disconnected
+
+copiedPerson.address.street = 'Amphitheatre Parkway'; // connected
+copiedPerson.address.city = 'Mountain View'; // connected
+
+console.log(copiedPerson);
+=> {
+    firstName: 'Jane',
+    lastName: 'Doe',
+    address: {
+        street: 'Amphitheatre Parkway',
+        city: 'Mountain View',
+        state: 'CA',
+        country: 'USA'
+    }
+}
+
+console.log(person);
+=> {
+    firstName: 'John',
+    lastName: 'Doe',
+    address: {
+        street: 'Amphitheatre Parkway',
+        city: 'Mountain View',
+        state: 'CA',
+        country: 'USA'
+    }
+}
+
+=> Nó ko thay đổi biến nguyên thủy, mà nó thay đổi giá trị của biến đối tượng trong person
+The reason is that the address is reference value while the first name is a primitive value. Both person and copiedPerson references different objects but these objects reference the same address objects.
+----------------------------------------------------------------------------------
+Deep copy example
+let person = {
+    firstName: 'John',
+    lastName: 'Doe',
+    address: {
+        street: 'North 1st street',
+        city: 'San Jose',
+        state: 'CA',
+        country: 'USA'
+    }
+};
+let copiedPerson = JSON.parse(JSON.stringify(person));
+copiedPerson.firstName = 'Jane'; // disconnected
+copiedPerson.address.street = 'Amphitheatre Parkway';
+copiedPerson.address.city = 'Mountain View';
+console.log(person);
+=>
+{
+    firstName: 'John',
+    lastName: 'Doe',
+    address: {
+        street: 'North 1st street',
+        city: 'San Jose',
+        state: 'CA',
+        country: 'USA'
+    }
+}
+
+=> Thằng thứ 2 cách biệt hoàn toàn với thằng thứ nhất. giá trị 1 ko biến đổi, giá trị 2 biến đổi theo cập nhật
+=> In this example, all values in the copiedPerson object are disconnected from the original person object
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------- Learn React JS ---------------------------------------------------------------
+
+Cú pháp tạo project: npx create-react-app my-app
+Chuyển vào project chứa dự án: cd my-app
+Cú pháp chạy dự án: npm start
+Cấu trúc folder dự án ReactJS:
+Folder "node_modules": thư viện reactjs
+public: giao diện websites
+public\index.html: file hiển thị
+src\index.js: file chạy chính và điều kiển website
+src\App.js: File tạo component App
+src\App.css: Css cho component App
+package.json: quản lý thông số ứng dụng (npm install: sẽ dùng thông số ở mục
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  }
+trong file này để build lại thư viện "nodes_module"  
+
+
+
+Local:            http://localhost:3000        
+On Your Network:  http://172.18.0.1:3000   
+
+Khi ta muốn code dự án này ở laptop khác thì cần xóa folder "node modules" trong dự án 
+Tại sao xóa ?
+Nguyên nhân: nặng và ta có thể build lại được nó trong dự án ở máy mới bằng cách chạy lệnh "npm install" trong folder chứa dự án
+https://youtu.be/yYeyb-cNJhI?t=569
+
+
